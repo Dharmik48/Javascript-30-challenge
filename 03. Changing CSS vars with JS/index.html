@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun with CSS Variables</title>
+    <style>
+        :root {
+            --space: 10px; 
+            --blur: 5px; 
+            --color: #239ec4; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: montserrat;
+            min-height: 100vh;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 1.5rem;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .hl {
+            color: var(--color);
+            font-size: 110%;
+        }
+
+        .controls {
+            margin: 30px 0;
+            font-size: 1.5rem;
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        img {
+            height: 500px;
+            filter: blur(var(--blur));
+            border: var(--space) solid var(--color);
+        }
+    </style>
+</head>
+<body>
+    <h1>Update CSS variables with <span class="hl">JS</span></h1>
+
+    <div class="controls">
+        <div class="space">
+            <label for="space">Spacing: </label>
+            <input type="range" name="space" min="0" max="100" value="10" data-sizing="px">
+        </div>
+        <div class="blur">
+            <label for="blur">Blur: </label>
+            <input type="range" name="blur" min="0" max="20" value="5" data-sizing="px">
+        </div>
+        <div class="color">
+            <label for="color">Color: </label>
+            <input type="color" name="color" value="#239ec4">
+        </div>
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1580327344181-c1163234e5a0?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1047&q=80" alt="img">
+
+    <script>
+        const controls = document.querySelectorAll('input');
+        controls.forEach(control => {
+            control.addEventListener('input', changeCSS);
+        });
+
+        function changeCSS() {
+            const sizing = this.dataset.sizing || '';
+            document.documentElement.style.setProperty(`--${this.name}`, this.value + sizing);
+        }
+    </script>
+</body>
+</html>
